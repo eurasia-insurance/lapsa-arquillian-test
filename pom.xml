@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.lapsa.maven.pom</groupId>
+		<artifactId>javaee7-app-parent</artifactId>
+		<version>3.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>tech.lapsa.lapsa</groupId>
+	<artifactId>lapsa-arquillian-test</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Lapsa Lib : Arquillian test tools</name>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- http://mvnrepository.com/artifact/org.jboss.arquillian/arquillian-bom -->
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>1.1.13.Final</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-depchain</artifactId>
+			<type>pom</type>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<!-- TEST ENGINE -->
+		<!-- junit -->
+		<profile>
+			<id>junit</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<!-- https://mvnrepository.com/artifact/org.jboss.arquillian.junit/arquillian-junit-container -->
+				<dependency>
+					<groupId>org.jboss.arquillian.junit</groupId>
+					<artifactId>arquillian-junit-container</artifactId>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+				<dependency>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-all</artifactId>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- testng -->
+		<profile>
+			<id>testng</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<dependencies>
+				<!-- https://mvnrepository.com/artifact/org.jboss.arquillian.testng/arquillian-testng-container -->
+				<dependency>
+					<groupId>org.jboss.arquillian.testng</groupId>
+					<artifactId>arquillian-testng-container</artifactId>
+					<version>1.1.13.Final</version>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+				<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+				<dependency>
+					<groupId>org.testng</groupId>
+					<artifactId>testng</artifactId>
+					<version>6.11</version>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<!-- TEST CONTAINER -->
+		<!-- glassfish -->
+		<profile>
+			<id>glassfish</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<dependencies>
+				<!-- https://mvnrepository.com/artifact/org.jboss.arquillian.container/arquillian-glassfish-embedded-3.1 -->
+				<dependency>
+					<groupId>org.jboss.arquillian.container</groupId>
+					<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+					<version>1.0.1</version>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+				<!-- https://mvnrepository.com/artifact/org.glassfish.main.extras/glassfish-embedded-all -->
+				<dependency>
+					<groupId>org.glassfish.main.extras</groupId>
+					<artifactId>glassfish-embedded-all</artifactId>
+					<version>4.1.2</version>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<!-- payara -->
+		<profile>
+			<id>payara</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<!-- https://mvnrepository.com/artifact/org.jboss.arquillian.container/arquillian-glassfish-embedded-3.1 -->
+				<dependency>
+					<groupId>org.jboss.arquillian.container</groupId>
+					<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+					<version>1.0.1</version>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+				<!-- https://mvnrepository.com/artifact/fish.payara.extras/payara-embedded-all -->
+				<dependency>
+					<groupId>fish.payara.extras</groupId>
+					<artifactId>payara-embedded-all</artifactId>
+					<version>4.1.2.173.0.1</version>
+					<scope>compile</scope>
+					<optional>false</optional>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+	<scm>
+		<connection>scm:git:https://gitlab.lapsa.tech/lapsa/lapsa/arquillian-test.git</connection>
+		<developerConnection>scm:git:https://gitlab.lapsa.tech/lapsa/lapsa/arquillian-test.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<issueManagement>
+		<system>gitlab</system>
+		<url>https://gitlab.lapsa.tech/lapsa/lapsa/arquillian-test/issues</url>
+	</issueManagement>
+
+
+</project>
