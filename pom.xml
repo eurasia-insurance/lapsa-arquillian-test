@@ -16,6 +16,7 @@
 	<name>Lapsa Lib : Arquillian test tools</name>
 
 	<properties>
+		<!-- BOMS -->
 		<arquillian-bom.version>1.1.13.Final</arquillian-bom.version>
 	</properties>
 
