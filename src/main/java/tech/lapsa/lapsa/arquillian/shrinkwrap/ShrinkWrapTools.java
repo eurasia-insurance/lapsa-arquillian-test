@@ -1,4 +1,4 @@
-package com.lapsa.lapsa.arquilliantools;
+package tech.lapsa.lapsa.arquillian.shrinkwrap;
 
 import java.io.File;
 
