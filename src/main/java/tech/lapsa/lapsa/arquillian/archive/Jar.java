@@ -1,6 +1,6 @@
 package tech.lapsa.lapsa.arquillian.archive;
 
-import java.io.PrintStream;
+import java.util.function.Consumer;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
@@ -15,8 +15,8 @@ public class Jar {
 	return archive;
     }
 
-    public Jar dumpingTo(PrintStream ps) {
-	ps.println(archive.toString(true));
+    public Jar dumpingTo(Consumer<String> dumper) {
+	dumper.accept(archive.toString(true));
 	return this;
     }
 }

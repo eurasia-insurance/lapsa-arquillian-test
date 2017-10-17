@@ -1,6 +1,6 @@
 package tech.lapsa.lapsa.arquillian.archive;
 
-import java.io.PrintStream;
+import java.util.function.Consumer;
 
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
@@ -10,8 +10,8 @@ public class EjbJar extends Jar {
     }
 
     @Override
-    public EjbJar dumpingTo(PrintStream ps) {
-	super.dumpingTo(ps);
+    public EjbJar dumpingTo(Consumer<String> dumper) {
+	super.dumpingTo(dumper);
 	return this;
     }
 }
