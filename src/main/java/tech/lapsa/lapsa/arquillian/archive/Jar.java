@@ -1,5 +1,7 @@
 package tech.lapsa.lapsa.arquillian.archive;
 
+import java.io.PrintStream;
+
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 public class Jar {
@@ -11,5 +13,10 @@ public class Jar {
 
     public JavaArchive asJavaArchive() {
 	return archive;
+    }
+
+    public Jar dumpingTo(PrintStream ps) {
+	ps.println(archive.toString(true));
+	return this;
     }
 }

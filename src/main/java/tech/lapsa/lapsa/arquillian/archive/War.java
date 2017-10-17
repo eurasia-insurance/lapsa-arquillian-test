@@ -1,5 +1,7 @@
 package tech.lapsa.lapsa.arquillian.archive;
 
+import java.io.PrintStream;
+
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 public class War {
@@ -13,4 +15,8 @@ public class War {
 	return archive;
     }
 
+    public War dumpingTo(PrintStream ps) {
+	ps.println(archive.toString(true));
+	return this;
+    }
 }
