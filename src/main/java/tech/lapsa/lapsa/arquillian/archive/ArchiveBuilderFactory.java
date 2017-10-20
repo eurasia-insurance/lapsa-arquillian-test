@@ -57,11 +57,14 @@ public final class ArchiveBuilderFactory {
 	public Ear build() {
 	    EnterpriseArchive archive = ShrinkWrap.create(EnterpriseArchive.class);
 	    jarModules.stream() //
-		    .forEach(x -> archive.addAsModule(x.asJavaArchive()));
+		    .map(Jar::asJavaArchive)
+		    .forEach(archive::addAsModule);
 	    warModules.stream() //
-		    .forEach(x -> archive.addAsModule(x.asWebArchive()));
+		    .map(War::asWebArchive)
+		    .forEach(archive::addAsModule);
 	    ejbJarModules.stream() //
-		    .forEach(x -> archive.addAsModule(x.asJavaArchive()));
+		    .map(EjbJar::asJavaArchive)
+		    .forEach(archive::addAsModule);
 	    if (usingRuntimeDependencies)
 		earAddRuntimeDependencies(archive);
 	    return new Ear(archive);
@@ -132,7 +135,7 @@ public final class ArchiveBuilderFactory {
 		    .forEach(x -> archive.addPackages(true, x));
 
 	    classes.stream() //
-		    .forEach(x -> archive.addClass(x));
+		    .forEach(archive::addClass);
 
 	    resources.stream() //
 		    .forEach(x -> addResources(archive, x.root, x.target, x.recursive, true));
