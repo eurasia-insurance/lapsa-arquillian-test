@@ -16,9 +16,13 @@ import org.jboss.shrinkwrap.resolver.api.maven.PackagingType;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinate;
 
+import tech.lapsa.java.commons.logging.MyLogger;
+
 public final class ArchiveBuilderFactory {
     private ArchiveBuilderFactory() {
     }
+
+    private final static MyLogger logger = MyLogger.newBuilder().withNameOf(ArchiveBuilderFactory.class).build();
 
     public static EarBuilder newEarBuilder() {
 	return new EarBuilder();
@@ -76,6 +80,10 @@ public final class ArchiveBuilderFactory {
     }
 
     public static class JarBuilder {
+
+	private static final String TEST_MANIFEST_FOLDER = "target/test-classes/META-INF";
+	private static final String MANIFEST_FOLDER = "target/classes/META-INF";
+
 	private boolean usingManifestFolder = false;
 	private boolean usingTestManifestFolder = false;
 
@@ -141,10 +149,10 @@ public final class ArchiveBuilderFactory {
 		    .forEach(x -> addResources(archive, x.root, x.target, x.recursive, true));
 
 	    if (usingManifestFolder)
-		addResources(archive, new File("src/main/resources/META-INF"), "/", true, false);
+		addResources(archive, new File(MANIFEST_FOLDER), "/", true, false);
 
 	    if (usingTestManifestFolder)
-		addResources(archive, new File("src/test/resources/META-INF"), "/", true, false);
+		addResources(archive, new File(TEST_MANIFEST_FOLDER), "/", true, false);
 
 	    return supplier.apply(archive);
 	}
@@ -209,8 +217,12 @@ public final class ArchiveBuilderFactory {
 	    boolean resourceOrManifest) {
 	if (file == null)
 	    throw new NullPointerException();
-	if (!file.exists() || !file.isDirectory())
-	    throw new RuntimeException(String.format("%1$s must be a directory", file));
+
+	if (!file.exists() || file.isDirectory()) {
+	    logger.WARN.log("Resource is not a directory. Skipped.");
+	    return;
+	}
+
 	String sub = (targetPath.startsWith("/") ? "" : "/") + targetPath + (targetPath.endsWith("/") ? "" : "/");
 	for (File f : file.listFiles())
 	    if (f.isFile()) {

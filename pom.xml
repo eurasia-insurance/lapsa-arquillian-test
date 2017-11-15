@@ -16,24 +16,38 @@
 
 	<properties>
 		<!-- BOMS -->
+		<java-commons.version>1.1-SNAPSHOT</java-commons.version>
 		<arquillian-bom.version>1.1.13.Final</arquillian-bom.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 			<!-- BOMS -->
+			<dependency>
+				<groupId>tech.lapsa.java</groupId>
+				<artifactId>java-commons-root</artifactId>
+				<version>${java-commons.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- http://mvnrepository.com/artifact/org.jboss.arquillian/arquillian-bom -->
 			<dependency>
 				<groupId>org.jboss.arquillian</groupId>
 				<artifactId>arquillian-bom</artifactId>
 				<version>${arquillian-bom.version}</version>
-				<scope>import</scope>
 				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>tech.lapsa.java</groupId>
+			<artifactId>java-commons</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
 			<artifactId>shrinkwrap-resolver-depchain</artifactId>
