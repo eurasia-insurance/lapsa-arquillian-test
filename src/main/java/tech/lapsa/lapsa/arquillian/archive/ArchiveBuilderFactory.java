@@ -141,10 +141,10 @@ public final class ArchiveBuilderFactory {
 		    .forEach(x -> addResources(archive, x.root, x.target, x.recursive, true));
 
 	    if (usingManifestFolder)
-		addResources(archive, new File("src/main/resources/META-INF"), "/", true, false);
+		addResources(archive, new File("target/classes/META-INF"), "/", true, false);
 
 	    if (usingTestManifestFolder)
-		addResources(archive, new File("src/test/resources/META-INF"), "/", true, false);
+		addResources(archive, new File("target/test-classes/META-INF"), "/", true, false);
 
 	    return supplier.apply(archive);
 	}
@@ -209,17 +209,17 @@ public final class ArchiveBuilderFactory {
 	    boolean resourceOrManifest) {
 	if (file == null)
 	    throw new NullPointerException();
-	if (!file.exists() || !file.isDirectory())
-	    throw new RuntimeException(String.format("%1$s must be a directory", file));
-	String sub = (targetPath.startsWith("/") ? "" : "/") + targetPath + (targetPath.endsWith("/") ? "" : "/");
-	for (File f : file.listFiles())
-	    if (f.isFile()) {
-		if (resourceOrManifest)
-		    archive.addAsResource(f, sub + f.getName());
-		else
-		    archive.addAsManifestResource(f, sub + f.getName());
-	    } else if (f.isDirectory() && recursive)
-		addResources(archive, f, sub + f.getName() + "/", recursive, resourceOrManifest);
+	if (file.exists() && file.isDirectory()) {
+	    String sub = (targetPath.startsWith("/") ? "" : "/") + targetPath + (targetPath.endsWith("/") ? "" : "/");
+	    for (File f : file.listFiles())
+		if (f.isFile()) {
+		    if (resourceOrManifest)
+			archive.addAsResource(f, sub + f.getName());
+		    else
+			archive.addAsManifestResource(f, sub + f.getName());
+		} else if (f.isDirectory() && recursive)
+		    addResources(archive, f, sub + f.getName() + "/", recursive, resourceOrManifest);
+	}
     }
 
     private static PomEquippedResolveStage pomResolveStage;
