@@ -16,9 +16,13 @@ import org.jboss.shrinkwrap.resolver.api.maven.PackagingType;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinate;
 
+import tech.lapsa.java.commons.logging.MyLogger;
+
 public final class ArchiveBuilderFactory {
     private ArchiveBuilderFactory() {
     }
+
+    private final static MyLogger logger = MyLogger.newBuilder().withNameOf(ArchiveBuilderFactory.class).build();
 
     public static EarBuilder newEarBuilder() {
 	return new EarBuilder();
@@ -209,17 +213,21 @@ public final class ArchiveBuilderFactory {
 	    boolean resourceOrManifest) {
 	if (file == null)
 	    throw new NullPointerException();
-	if (file.exists() && file.isDirectory()) {
-	    String sub = (targetPath.startsWith("/") ? "" : "/") + targetPath + (targetPath.endsWith("/") ? "" : "/");
-	    for (File f : file.listFiles())
-		if (f.isFile()) {
-		    if (resourceOrManifest)
-			archive.addAsResource(f, sub + f.getName());
-		    else
-			archive.addAsManifestResource(f, sub + f.getName());
-		} else if (f.isDirectory() && recursive)
-		    addResources(archive, f, sub + f.getName() + "/", recursive, resourceOrManifest);
+
+	if (!file.exists() || file.isDirectory()) {
+	    logger.WARN.log("Resource is not a directory. Skipped.");
+	    return;
 	}
+
+	String sub = (targetPath.startsWith("/") ? "" : "/") + targetPath + (targetPath.endsWith("/") ? "" : "/");
+	for (File f : file.listFiles())
+	    if (f.isFile()) {
+		if (resourceOrManifest)
+		    archive.addAsResource(f, sub + f.getName());
+		else
+		    archive.addAsManifestResource(f, sub + f.getName());
+	    } else if (f.isDirectory() && recursive)
+		addResources(archive, f, sub + f.getName() + "/", recursive, resourceOrManifest);
     }
 
     private static PomEquippedResolveStage pomResolveStage;
