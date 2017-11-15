@@ -80,6 +80,10 @@ public final class ArchiveBuilderFactory {
     }
 
     public static class JarBuilder {
+
+	private static final String TEST_MANIFEST_FOLDER = "target/test-classes/META-INF";
+	private static final String MANIFEST_FOLDER = "target/classes/META-INF";
+
 	private boolean usingManifestFolder = false;
 	private boolean usingTestManifestFolder = false;
 
@@ -145,10 +149,10 @@ public final class ArchiveBuilderFactory {
 		    .forEach(x -> addResources(archive, x.root, x.target, x.recursive, true));
 
 	    if (usingManifestFolder)
-		addResources(archive, new File("target/classes/META-INF"), "/", true, false);
+		addResources(archive, new File(MANIFEST_FOLDER), "/", true, false);
 
 	    if (usingTestManifestFolder)
-		addResources(archive, new File("target/test-classes/META-INF"), "/", true, false);
+		addResources(archive, new File(TEST_MANIFEST_FOLDER), "/", true, false);
 
 	    return supplier.apply(archive);
 	}
