@@ -218,8 +218,8 @@ public final class ArchiveBuilderFactory {
 	if (file == null)
 	    throw new NullPointerException();
 
-	if (!file.exists() || file.isDirectory()) {
-	    logger.WARN.log("Resource is not a directory. Skipped.");
+	if (!(file.exists() && file.isDirectory())) {
+	    logger.WARN.log("Resource '%1$s' is not a directory. Skipped.", file);
 	    return;
 	}
 
