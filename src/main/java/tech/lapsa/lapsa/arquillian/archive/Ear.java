@@ -7,7 +7,7 @@ import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 public class Ear {
     private final EnterpriseArchive archive;
 
-    Ear(EnterpriseArchive archive) {
+    Ear(final EnterpriseArchive archive) {
 	this.archive = archive;
     }
 
@@ -15,7 +15,7 @@ public class Ear {
 	return archive;
     }
 
-    public Ear dumpingTo(Consumer<String> dumper) {
+    public Ear dumpingTo(final Consumer<String> dumper) {
 	dumper.accept(archive.toString(true));
 	return this;
     }

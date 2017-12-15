@@ -7,7 +7,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 public class Jar {
     private final JavaArchive archive;
 
-    Jar(JavaArchive archive) {
+    Jar(final JavaArchive archive) {
 	this.archive = archive;
     }
 
@@ -15,7 +15,7 @@ public class Jar {
 	return archive;
     }
 
-    public Jar dumpingTo(Consumer<String> dumper) {
+    public Jar dumpingTo(final Consumer<String> dumper) {
 	dumper.accept(archive.toString(true));
 	return this;
     }

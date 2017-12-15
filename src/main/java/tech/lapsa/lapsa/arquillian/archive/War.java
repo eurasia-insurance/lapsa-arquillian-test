@@ -7,7 +7,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 public class War {
     private final WebArchive archive;
 
-    War(WebArchive archive) {
+    War(final WebArchive archive) {
 	this.archive = archive;
     }
 
@@ -15,7 +15,7 @@ public class War {
 	return archive;
     }
 
-    public War dumpingTo(Consumer<String> dumper) {
+    public War dumpingTo(final Consumer<String> dumper) {
 	dumper.accept(archive.toString(true));
 	return this;
     }

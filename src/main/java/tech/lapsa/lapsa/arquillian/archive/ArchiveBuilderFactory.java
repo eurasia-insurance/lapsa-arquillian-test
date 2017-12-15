@@ -29,9 +29,9 @@ public final class ArchiveBuilderFactory {
     }
 
     public static class EarBuilder {
-	private List<Jar> jarModules = new ArrayList<>();
-	private List<EjbJar> ejbJarModules = new ArrayList<>();
-	private List<War> warModules = new ArrayList<>();
+	private final List<Jar> jarModules = new ArrayList<>();
+	private final List<EjbJar> ejbJarModules = new ArrayList<>();
+	private final List<War> warModules = new ArrayList<>();
 
 	private boolean usingRuntimeDependencies = false;
 
@@ -43,23 +43,23 @@ public final class ArchiveBuilderFactory {
 	    return this;
 	}
 
-	public EarBuilder withModule(Jar jar) {
+	public EarBuilder withModule(final Jar jar) {
 	    jarModules.add(jar);
 	    return this;
 	}
 
-	public EarBuilder withModule(EjbJar ejbJar) {
+	public EarBuilder withModule(final EjbJar ejbJar) {
 	    ejbJarModules.add(ejbJar);
 	    return this;
 	}
 
-	public EarBuilder withModule(War war) {
+	public EarBuilder withModule(final War war) {
 	    warModules.add(war);
 	    return this;
 	}
 
 	public Ear build() {
-	    EnterpriseArchive archive = ShrinkWrap.create(EnterpriseArchive.class);
+	    final EnterpriseArchive archive = ShrinkWrap.create(EnterpriseArchive.class);
 	    jarModules.stream() //
 		    .map(Jar::asJavaArchive)
 		    .forEach(archive::addAsModule);
@@ -87,24 +87,24 @@ public final class ArchiveBuilderFactory {
 	private boolean usingManifestFolder = false;
 	private boolean usingTestManifestFolder = false;
 
-	private List<Package> packages = new ArrayList<>();
-	private List<Class<?>> classes = new ArrayList<>();
-	private List<Resource> resources = new ArrayList<>();
+	private final List<Package> packages = new ArrayList<>();
+	private final List<Class<?>> classes = new ArrayList<>();
+	private final List<Resource> resources = new ArrayList<>();
 
 	private JarBuilder() {
 	}
 
-	public JarBuilder withPackageOf(Class<?>... clazz) {
+	public JarBuilder withPackageOf(final Class<?>... clazz) {
 	    Arrays.stream(clazz).map(Class::getPackage).forEach(packages::add);
 	    return this;
 	}
 
-	public JarBuilder withClass(Class<?>... clazz) {
+	public JarBuilder withClass(final Class<?>... clazz) {
 	    classes.addAll(Arrays.asList(clazz));
 	    return this;
 	}
 
-	public JarBuilder withPackage(Package... pack) {
+	public JarBuilder withPackage(final Package... pack) {
 	    packages.addAll(Arrays.asList(pack));
 	    return this;
 	}
@@ -124,19 +124,19 @@ public final class ArchiveBuilderFactory {
 	    final String target;
 	    public final boolean recursive;
 
-	    private Resource(File root, String target) {
+	    private Resource(final File root, final String target) {
 		this.root = root;
 		this.target = target;
-		this.recursive = true;
+		recursive = true;
 	    }
 	}
 
-	public JarBuilder withResource(File root, String target) {
+	public JarBuilder withResource(final File root, final String target) {
 	    resources.add(new Resource(root, target));
 	    return this;
 	}
 
-	protected <T extends Jar> T build(Function<JavaArchive, T> supplier) {
+	protected <T extends Jar> T build(final Function<JavaArchive, T> supplier) {
 	    final JavaArchive archive = ShrinkWrap.create(JavaArchive.class);
 
 	    packages.stream() //
@@ -172,19 +172,19 @@ public final class ArchiveBuilderFactory {
 	}
 
 	@Override
-	public EjbJarBuilder withPackageOf(Class<?>... clazz) {
+	public EjbJarBuilder withPackageOf(final Class<?>... clazz) {
 	    super.withPackageOf(clazz);
 	    return this;
 	}
 
 	@Override
-	public EjbJarBuilder withPackage(Package... pack) {
+	public EjbJarBuilder withPackage(final Package... pack) {
 	    super.withPackage(pack);
 	    return this;
 	}
 
 	@Override
-	public JarBuilder withClass(Class<?>... clazz) {
+	public JarBuilder withClass(final Class<?>... clazz) {
 	    super.withClass(clazz);
 	    return this;
 	}
@@ -202,7 +202,7 @@ public final class ArchiveBuilderFactory {
 	}
 
 	@Override
-	public EjbJarBuilder withResource(File root, String target) {
+	public EjbJarBuilder withResource(final File root, final String target) {
 	    super.withResource(root, target);
 	    return this;
 	}
@@ -213,8 +213,9 @@ public final class ArchiveBuilderFactory {
 	}
     }
 
-    private static void addResources(JavaArchive archive, File file, String targetPath, boolean recursive,
-	    boolean resourceOrManifest) {
+    private static void addResources(final JavaArchive archive, final File file, final String targetPath,
+	    final boolean recursive,
+	    final boolean resourceOrManifest) {
 	if (file == null)
 	    throw new NullPointerException();
 
@@ -223,8 +224,8 @@ public final class ArchiveBuilderFactory {
 	    return;
 	}
 
-	String sub = (targetPath.startsWith("/") ? "" : "/") + targetPath + (targetPath.endsWith("/") ? "" : "/");
-	for (File f : file.listFiles())
+	final String sub = (targetPath.startsWith("/") ? "" : "/") + targetPath + (targetPath.endsWith("/") ? "" : "/");
+	for (final File f : file.listFiles())
 	    if (f.isFile()) {
 		if (resourceOrManifest)
 		    archive.addAsResource(f, sub + f.getName());
@@ -243,31 +244,31 @@ public final class ArchiveBuilderFactory {
 		    .loadPomFromFile("pom.xml");
     }
 
-    private static void earAddRuntimeDependencies(EnterpriseArchive ear) {
+    private static void earAddRuntimeDependencies(final EnterpriseArchive ear) {
 	initPomResolveStage();
-	MavenResolvedArtifact[] mars = pomResolveStage
+	final MavenResolvedArtifact[] mars = pomResolveStage
 		.importCompileAndRuntimeDependencies()
 		.resolve()
 		.withTransitivity()
 		.asResolvedArtifact();
-	for (MavenResolvedArtifact mar : mars)
+	for (final MavenResolvedArtifact mar : mars)
 	    earAddMavenResolvedArtifact(ear, mar);
     }
 
-    private static void earAddMavenResolvedArtifact(EnterpriseArchive ear, MavenResolvedArtifact mar) {
-	MavenCoordinate co = mar.getCoordinate();
+    private static void earAddMavenResolvedArtifact(final EnterpriseArchive ear, final MavenResolvedArtifact mar) {
+	final MavenCoordinate co = mar.getCoordinate();
 	if (co.getType().equals(PackagingType.JAR)) {
-	    JavaArchive archive = ShrinkWrap.create(JavaArchive.class, co.getArtifactId() + ".jar");
+	    final JavaArchive archive = ShrinkWrap.create(JavaArchive.class, co.getArtifactId() + ".jar");
 	    archive.merge(mar.as(JavaArchive.class));
 	    ear.addAsLibrary(archive);
 	}
 	if (co.getType().equals(PackagingType.EJB)) {
-	    JavaArchive archive = ShrinkWrap.create(JavaArchive.class, co.getArtifactId() + ".jar");
+	    final JavaArchive archive = ShrinkWrap.create(JavaArchive.class, co.getArtifactId() + ".jar");
 	    archive.merge(mar.as(JavaArchive.class));
 	    ear.addAsModule(archive);
 	}
 	if (co.getType().equals(PackagingType.WAR)) {
-	    WebArchive archive = ShrinkWrap.create(WebArchive.class, co.getArtifactId() + ".war");
+	    final WebArchive archive = ShrinkWrap.create(WebArchive.class, co.getArtifactId() + ".war");
 	    archive.merge(mar.as(JavaArchive.class));
 	    ear.addAsModule(archive);
 	}
