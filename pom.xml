@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>tech.lapsa.maven</groupId>
@@ -17,7 +18,10 @@
 	<properties>
 		<!-- BOMS -->
 		<java-commons.version>CURRENT-SNAPSHOT</java-commons.version>
-		<arquillian-bom.version>1.1.13.Final</arquillian-bom.version>
+		<arquillian-bom.version>1.4.1.Final</arquillian-bom.version>
+		<arquillian-glassfish-embedded-3.1.version>1.0.2</arquillian-glassfish-embedded-3.1.version>
+		<glassfish-embedded-all.version>4.1.2</glassfish-embedded-all.version>
+		<payara-embedded-all.version>4.1.2.173.0.1</payara-embedded-all.version>
 	</properties>
 
 	<dependencyManagement>
@@ -37,6 +41,24 @@
 				<version>${arquillian-bom.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.jboss.arquillian.container/arquillian-glassfish-embedded-3.1 -->
+			<dependency>
+				<groupId>org.jboss.arquillian.container</groupId>
+				<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+				<version>${arquillian-glassfish-embedded-3.1.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.glassfish.main.extras/glassfish-embedded-all -->
+			<dependency>
+				<groupId>org.glassfish.main.extras</groupId>
+				<artifactId>glassfish-embedded-all</artifactId>
+				<version>${glassfish-embedded-all.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/fish.payara.extras/payara-embedded-all -->
+			<dependency>
+				<groupId>fish.payara.extras</groupId>
+				<artifactId>payara-embedded-all</artifactId>
+				<version>${payara-embedded-all.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -98,7 +120,6 @@
 				<dependency>
 					<groupId>org.jboss.arquillian.testng</groupId>
 					<artifactId>arquillian-testng-container</artifactId>
-					<version>1.1.13.Final</version>
 					<scope>compile</scope>
 					<optional>false</optional>
 				</dependency>
@@ -106,7 +127,6 @@
 				<dependency>
 					<groupId>org.testng</groupId>
 					<artifactId>testng</artifactId>
-					<version>6.11</version>
 					<scope>compile</scope>
 					<optional>false</optional>
 				</dependency>
@@ -125,7 +145,6 @@
 				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
 					<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
-					<version>1.0.1</version>
 					<scope>compile</scope>
 					<optional>false</optional>
 				</dependency>
@@ -133,7 +152,6 @@
 				<dependency>
 					<groupId>org.glassfish.main.extras</groupId>
 					<artifactId>glassfish-embedded-all</artifactId>
-					<version>4.1.2</version>
 					<scope>compile</scope>
 					<optional>false</optional>
 				</dependency>
@@ -151,7 +169,6 @@
 				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
 					<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
-					<version>1.0.1</version>
 					<scope>compile</scope>
 					<optional>false</optional>
 				</dependency>
@@ -159,7 +176,6 @@
 				<dependency>
 					<groupId>fish.payara.extras</groupId>
 					<artifactId>payara-embedded-all</artifactId>
-					<version>4.1.2.173.0.1</version>
 					<scope>compile</scope>
 					<optional>false</optional>
 				</dependency>
