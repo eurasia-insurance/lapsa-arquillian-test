@@ -16,7 +16,7 @@
 
 	<properties>
 		<!-- BOMS -->
-		<java-commons.version>20190317r6</java-commons.version>
+		<java-commons.version>CURRENT-SNAPSHOT</java-commons.version>
 		<arquillian-bom.version>1.4.1.Final</arquillian-bom.version>
 		<arquillian-glassfish-embedded-3.1.version>1.0.2</arquillian-glassfish-embedded-3.1.version>
 		<glassfish-embedded-all.version>4.1.2</glassfish-embedded-all.version>
